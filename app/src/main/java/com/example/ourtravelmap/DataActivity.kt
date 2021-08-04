@@ -11,7 +11,7 @@ import com.example.ourtravelmap.databinding.ActivityDataBinding
 
 class DataActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    //private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityDataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,18 +23,25 @@ class DataActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_data)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //appBarConfiguration = AppBarConfiguration(navController.graph)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
+        setupActionBarWithNavController(navController)  // アクションバーを押したときに、onSupportNavigateup()が呼ばれる
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            navController.navigate(R.id.action_to_dataEditFragment)
+        }
+
+        binding.mapButton.setOnClickListener {
+            finish()
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_data)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+    // アクションバーを押すと呼ばれる
+    override fun onSupportNavigateUp()
+        = findNavController(R.id.nav_host_fragment_content_data).navigateUp()  // navigateUp: 前画面に画面遷移
+
+    // fabボタンの表示切り替え
+    fun setFabVisible(visibility: Int){
+        binding.fab.visibility = visibility
     }
 }

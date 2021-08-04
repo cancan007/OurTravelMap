@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_to_dataEditFragment"
+            app:destination="@id/dataEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,5 +27,18 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_to_dataEditFragment"
+            app:destination="@id/dataEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dataEditFragment"
+        android:name="com.example.ourtravelmap.DataEditFragment"
+        android:label="@string/data_edit_text"
+        tools:layout="@layout/fragment_data_edit" >
+        <argument
+            android:name="dataId"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>

@@ -46,9 +46,20 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
         binding.dataList.layoutManager = LinearLayoutManager(context)  //  RecyclerView(dataList)のレイアウトマネージャーとして登録(LinearLayoutManager: 項目を直列に並べる)(contextはアプリの状態ていうイメージ)
-        val datas = realm.where<Data>().findAll()
+        val datas = realm.where<Data>().findAll()  // データ項目を取得
+        // adapterを設定
         val adapter = DataAdapter(datas)
         binding.dataList.adapter = adapter
+
+        // Safe Argsという画面遷移時のデータの明け渡しを安全かつ簡単に実装する(dataEditFragmentのArgumentsで設定したdataIdにfirstFragemntからデータを渡す)
+        adapter.setOnItemClickListener { id ->
+            id?.let{
+                val action =
+                    FirstFragmentDirections.actionToDataEditFragment(it)  // idをDataEditFragmentに渡している
+                findNavController().navigate(action) // navigate:画面遷移しながら上記を実行
+            }
+        }
+        (activity as? DataActivity)?.setFabVisible(View.VISIBLE)
     }
 
     override fun onDestroyView() {
